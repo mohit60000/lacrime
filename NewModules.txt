@@ -1,0 +1,2 @@
+npm install --save esri-loader
+npm install --save @types/arcgis-js-api

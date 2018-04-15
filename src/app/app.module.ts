@@ -15,15 +15,20 @@ import { CmpTop100Table } from './cmp-top100-table/cmp-top100-table.component';
 import { SrvTop100Service } from './srv-top100.service';
 import { NavmenuComponent } from './navmenu/navmenu.component';
 import { CmpYearWiseCrime } from './cmp-year-wise-crime/cmp-year-wise-crime.component';
+import { DataOnMapComponent } from './data-on-map/data-on-map.component';
 
 const appRoutes: Routes = [
   {
-    path: "Top100Table", 
+    path: 'Top100Table', 
     component: CmpTop100Table
   },
   {
-    path: "YearCrime",
+    path: 'YearCrime',
     component: CmpYearWiseCrime
+  },
+  {
+    path : 'DataOnMap',
+    component: DataOnMapComponent
   }
 ]
 
@@ -32,7 +37,8 @@ const appRoutes: Routes = [
     AppComponent,
     CmpTop100Table,
     NavmenuComponent,
-    CmpYearWiseCrime
+    CmpYearWiseCrime,
+    DataOnMapComponent
   ],
   imports: [
     BrowserModule,

@@ -2,11 +2,12 @@ var express = require("express");
 var app = express();
 var oracledb = require('oracledb');
 var bodyParser = require('body-parser');
-//var cors = require('cors');
+var cors = require('cors');
 
 const request = require('request');
 
-//app.use(cors);
+app.use(cors());
+app.options('*',cors());
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); //URL encoded parameters
 

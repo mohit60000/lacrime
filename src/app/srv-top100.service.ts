@@ -6,11 +6,11 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class SrvTop100Service {
-  private serviceUrl="http://2759c4d1.ngrok.io/test";
+  private serviceUrl="http://b05417b9.ngrok.io/test";
 
   constructor(private http: HttpClient) { }
 
   getData(){
     const body = {sql: "select * from (select * from crime order by date_occured desc) where rownum<=25"};
-  }
     return this.http.post<Top100[]>(this.serviceUrl,body);
+  }

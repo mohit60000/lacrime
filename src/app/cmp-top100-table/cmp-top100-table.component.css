@@ -1,0 +1,24 @@
+
+  .top100-container {
+    display: flex;
+    flex-direction: column;
+    max-height: 500px;
+    min-width: 50%;
+    max-width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.example-card {
+  display: flex;
+    flex-direction: column;
+    min-width: 50%;
+    max-width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.example-header-image {
+  background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+  background-size: cover;
+}

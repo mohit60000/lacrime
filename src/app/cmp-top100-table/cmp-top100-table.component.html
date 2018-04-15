@@ -1,0 +1,59 @@
+<mat-card class="example-card">
+    <mat-card-header>
+      <mat-card-title><h2>Crime Cases in LA City</h2></mat-card-title>
+      <mat-card-subtitle>Latest 100</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <div class="mat-elevation-z8">
+            <mat-table [dataSource]="dataSource">
+              <ng-container matColumnDef="DR_NUMBER">
+                <mat-header-cell *matHeaderCellDef>DR Number</mat-header-cell>
+                <mat-cell *matCellDef="let user">{{user.DR_NUMBER}}</mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="DATE_REPORTED">
+                <mat-header-cell *matHeaderCellDef>Date Reported</mat-header-cell>
+                <mat-cell *matCellDef="let user">{{user.DATE_REPORTED | date:'MM/dd/yyyy'}}</mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="DATE_OCCURED">
+                <mat-header-cell *matHeaderCellDef>Date Occured</mat-header-cell>
+                <mat-cell *matCellDef="let user">{{user.DATE_OCCURED | date:'MM/dd/yyyy'}}</mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="TIME_OCCURED">
+                <mat-header-cell *matHeaderCellDef>Time Occured</mat-header-cell>
+                <mat-cell *matCellDef="let user">{{user.TIME_OCCURED}}</mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="CRIME_CODES">
+                <mat-header-cell *matHeaderCellDef>Crime Codes</mat-header-cell>
+                <mat-cell *matCellDef="let user">{{user.CRIME_CODES}}</mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="STATUS_CODE">
+                <mat-header-cell *matHeaderCellDef>Status Code</mat-header-cell>
+                <mat-cell *matCellDef="let user">{{user.STATUS_CODE}}</mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="VICTIM_ID">
+                <mat-header-cell *matHeaderCellDef>Victim ID</mat-header-cell>
+                <mat-cell *matCellDef="let user">{{user.VICTIM_ID}}</mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="WEAPON_CODE">
+                <mat-header-cell *matHeaderCellDef>Weapon Codes</mat-header-cell>
+                <mat-cell *matCellDef="let user">{{user.WEAPON_CODE}}</mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="AREA_CODE">
+                <mat-header-cell *matHeaderCellDef>Area Code</mat-header-cell>
+                <mat-cell *matCellDef="let user">{{user.AREA_CODE}}</mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="MO_CODES">
+                <mat-header-cell *matHeaderCellDef>MO Codes</mat-header-cell>
+                <mat-cell *matCellDef="let user">{{user.MO_CODES}}</mat-cell>
+              </ng-container>
+              <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+              <mat-row *matRowDef="let row; columns:displayedColumns"></mat-row>
+            </mat-table>
+            <mat-paginator #paginator
+                           [pageSize]="10"
+                           [pageSizeOptions]="[5, 10, 20]"
+                           [showFirstLastButtons]="true">
+            </mat-paginator>
+          </div>
+    </mat-card-content>
+  </mat-card>

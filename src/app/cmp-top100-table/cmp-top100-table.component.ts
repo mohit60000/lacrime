@@ -19,7 +19,8 @@ export class CmpTop100Table implements OnInit {
   }
 
   constructor(private top100Service: SrvTop100Service) {
-    top100Service.getData().subscribe(
+    var sqlTop100 = "select * from (select * from crime order by date_occured desc) where rownum<=100";
+    top100Service.getData(sqlTop100).subscribe(
       data=>{
         console.log(data);
         this.dataSource = new MatTableDataSource<Top100>(data);

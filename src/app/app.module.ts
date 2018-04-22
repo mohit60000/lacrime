@@ -18,6 +18,7 @@ import { NavmenuComponent } from './navmenu/navmenu.component';
 import { CmpYearWiseCrime } from './cmp-year-wise-crime/cmp-year-wise-crime.component';
 import { DataOnMapComponent } from './data-on-map/data-on-map.component';
 import { CmpYearDataDialog } from './cmp-year-data-dialog/cmp-year-data-dialog.component';
+import { GoogleMapsComponent } from './google-maps/google-maps.component';
 
 const appRoutes: Routes = [
   {
@@ -31,6 +32,10 @@ const appRoutes: Routes = [
   {
     path : 'DataOnMap',
     component: DataOnMapComponent
+  },
+  {
+    path : 'GoogleMap',
+    component: GoogleMapsComponent
   }
 ]
 
@@ -41,7 +46,8 @@ const appRoutes: Routes = [
     NavmenuComponent,
     CmpYearWiseCrime,
     DataOnMapComponent,
-    CmpYearDataDialog
+    CmpYearDataDialog,
+    GoogleMapsComponent
   ],
   entryComponents: [CmpYearDataDialog],
   imports: [

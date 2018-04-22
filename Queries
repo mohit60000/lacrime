@@ -1,8 +1,16 @@
-LA City Crime Queries: 
-1) select * from (select * from crime order by date_occured desc) where rownum<=100;
-2) "select crime_codes from crime where EXTRACT(year from date_reported)="+yearSelected;
-3) select count(dr_number) as case_count, y as year \
+LA City Crime Queries:
+
+1) LATEST 100 Crimes (sorted by Date):
+   Query: select * from (select * from crime order by date_occured desc) where rownum<=100;
+   
+2) TOP 10 CRIMES per YEAR:
+   Query: "select crime_codes from crime where EXTRACT(year from date_reported)="+yearSelected;
+   
+3) TOTAL CRIME CASES LOGGED per YEAR:
+   Query: select count(dr_number) as case_count, y as year \
     from (select dr_number, EXTRACT(year from date_reported) as y from crime) \
     group by y \
     order by y desc;
-4)select * from (select latitude, longitude from area_details) where rownum<=10;
+    
+4) 
+   Query: select * from (select latitude, longitude from area_details) where rownum<=10;

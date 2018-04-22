@@ -12,5 +12,5 @@ LA City Crime Queries:
     group by y \
     order by y desc;
     
-4) 
+4) LATITUDE and LONGITUDE Data:
    Query: select * from (select latitude, longitude from area_details) where rownum<=10;

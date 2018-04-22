@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import {HttpClientModule} from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatTableModule, MatSortModule, MatPaginatorModule, MatMenuModule, MatIconModule, MatCardModule, MatSidenavModule, MatToolbarModule, MatListModule} from '@angular/material';
+import {MatDialogModule} from '@angular/material';
 import {CdkTableModule} from '@angular/cdk/table';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule, Routes, RouterOutlet} from '@angular/router';
@@ -16,6 +17,7 @@ import { SrvTop100Service } from './srv-top100.service';
 import { NavmenuComponent } from './navmenu/navmenu.component';
 import { CmpYearWiseCrime } from './cmp-year-wise-crime/cmp-year-wise-crime.component';
 import { DataOnMapComponent } from './data-on-map/data-on-map.component';
+import { CmpYearDataDialog } from './cmp-year-data-dialog/cmp-year-data-dialog.component';
 
 const appRoutes: Routes = [
   {
@@ -38,8 +40,10 @@ const appRoutes: Routes = [
     CmpTop100Table,
     NavmenuComponent,
     CmpYearWiseCrime,
-    DataOnMapComponent
+    DataOnMapComponent,
+    CmpYearDataDialog
   ],
+  entryComponents: [CmpYearDataDialog],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -57,6 +61,7 @@ const appRoutes: Routes = [
     MatSidenavModule,
     MatToolbarModule,
     MatListModule,
+    MatDialogModule,
     RouterModule.forRoot(
       appRoutes,
       { enableTracing: true}

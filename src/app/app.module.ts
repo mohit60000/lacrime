@@ -22,6 +22,10 @@ import { GoogleMapsComponent } from './google-maps/google-maps.component';
 
 const appRoutes: Routes = [
   {
+    path: '', 
+    component: CmpTop100Table
+  },
+  {
     path: 'Top100Table', 
     component: CmpTop100Table
   },

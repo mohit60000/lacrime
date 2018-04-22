@@ -3,13 +3,14 @@
     &nbsp;&nbsp;
     <span>LA City Crime Data</span>
 </mat-toolbar>
-<mat-sidenav-container>
-  <mat-sidenav #sidenav fixedTopGap="56">
-      <button mat-button routerLink="/Top100Table">HOME</button><br>
-      <button mat-button routerLink="/YearCrime">YEAR WISE CRIME</button>
-      <button mat-button routerLink="/DataOnMap">Data On Map</button>
-      <button mat-button routerLink="/GoogleMap">Google Map</button>
-
-  </mat-sidenav>
-  <router-outlet></router-outlet>
+<mat-sidenav-container autosize style="align-items: center;">
+  <mat-sidenav #sidenav fixedTopGap="56" mode="push">
+        <mat-list>
+            <mat-list-item style="align-content:center;"><button mat-button routerLink="/Top100Table">HOME</button></mat-list-item>
+            <mat-list-item style="align-content:center;"><button mat-button routerLink="/YearCrime">YEAR WISE CRIME</button></mat-list-item>
+            <mat-list-item style="align-content:center;"><button mat-button routerLink="/DataOnMap">Data On Map</button></mat-list-item>
+            <mat-list-item style="align-content:center;"><button mat-button routerLink="/GoogleMap">Google Map</button></mat-list-item>
+        </mat-list>
+        </mat-sidenav>
+    <router-outlet></router-outlet>
 </mat-sidenav-container>

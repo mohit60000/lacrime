@@ -57,9 +57,10 @@ export class CmpYearDataDialog implements OnInit {
             datasets: [
               { 
                 data: values,
+                label: 'Count of Top 10 crimes in '+yearSelected,
                 backgroundColor: color("#ff0000").alpha(0.5).rgbString(),
-				        borderColor: color.red,
-				        borderWidth: 1,
+				        borderColor: color("#ff0000").alpha(1).rgbString(),
+				        borderWidth: 3,
               }
             ]
           },

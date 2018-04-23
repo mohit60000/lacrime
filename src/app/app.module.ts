@@ -3,11 +3,12 @@ import { NgModule } from '@angular/core';
 import {HttpClientModule} from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatTableModule, MatSortModule, MatPaginatorModule, MatMenuModule, MatIconModule, MatCardModule, MatSidenavModule, MatToolbarModule, MatListModule} from '@angular/material';
-import {MatDialogModule} from '@angular/material';
+import {MatDialogModule, MatNativeDateModule} from '@angular/material';
 import {CdkTableModule} from '@angular/cdk/table';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule, Routes, RouterOutlet} from '@angular/router';
 import {MatButtonModule} from '@angular/material/button';
+import {MatDatepickerModule, MatFormFieldModule, MatInputModule} from '@angular/material'
 
 import 'hammerjs';
 
@@ -19,6 +20,7 @@ import { CmpYearWiseCrime } from './cmp-year-wise-crime/cmp-year-wise-crime.comp
 import { DataOnMapComponent } from './data-on-map/data-on-map.component';
 import { CmpYearDataDialog } from './cmp-year-data-dialog/cmp-year-data-dialog.component';
 import { GoogleMapsComponent } from './google-maps/google-maps.component';
+import { CmpDayOfWeekGraph } from './cmp-day-of-week-graph/cmp-day-of-week-graph.component';
 
 const appRoutes: Routes = [
   {
@@ -40,6 +42,10 @@ const appRoutes: Routes = [
   {
     path : 'GoogleMap',
     component: GoogleMapsComponent
+  },
+  {
+    path : 'DayOfWeekGraph',
+    component: CmpDayOfWeekGraph
   }
 ]
 
@@ -51,7 +57,8 @@ const appRoutes: Routes = [
     CmpYearWiseCrime,
     DataOnMapComponent,
     CmpYearDataDialog,
-    GoogleMapsComponent
+    GoogleMapsComponent,
+    CmpDayOfWeekGraph
   ],
   entryComponents: [CmpYearDataDialog],
   imports: [
@@ -72,6 +79,10 @@ const appRoutes: Routes = [
     MatToolbarModule,
     MatListModule,
     MatDialogModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatFormFieldModule,
+    MatInputModule,
     RouterModule.forRoot(
       appRoutes,
       { enableTracing: true}

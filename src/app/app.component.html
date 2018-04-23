@@ -5,12 +5,11 @@
 </mat-toolbar>
 <mat-sidenav-container autosize style="align-items: center;">
   <mat-sidenav #sidenav fixedTopGap="56" mode="push">
-        <mat-list>
-            <mat-list-item style="align-content:center;"><button mat-button routerLink="/Top100Table">HOME</button></mat-list-item>
-            <mat-list-item style="align-content:center;"><button mat-button routerLink="/YearCrime">YEAR WISE CRIME</button></mat-list-item>
-            <mat-list-item style="align-content:center;"><button mat-button routerLink="/DataOnMap">Data On Map</button></mat-list-item>
-            <mat-list-item style="align-content:center;"><button mat-button routerLink="/GoogleMap">Google Map</button></mat-list-item>
-        </mat-list>
-        </mat-sidenav>
+        <button mat-button routerLink="/Top100Table">HOME</button>
+        <button mat-button routerLink="/YearCrime">YEAR WISE CRIME</button>
+        <button mat-button routerLink="/DataOnMap">DATA ON MAP</button>
+        <button mat-button routerLink="/GoogleMap">GOOGLE MAP</button>
+        <button mat-button routerLink="/DayOfWeekGraph">DAY OF WEEK BASED DATA</button>
+    </mat-sidenav>
     <router-outlet></router-outlet>
 </mat-sidenav-container>

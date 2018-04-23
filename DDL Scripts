@@ -1,0 +1,13 @@
+CRIME_VIEW:
+
+CREATE OR REPLACE FORCE VIEW "PSAXENA"."CRIME_VIEW" ("DR_NUMBER", "DATE_REPORTED", "DATE_OCCURED", "TIME_OCCURED", "CRIME_CODES", "STATUS_CODE", "VICTIM_ID", "WEAPON_CODE", "AREA_CODE", "MO_CODES") AS 
+Select "DR_NUMBER","DATE_REPORTED","DATE_OCCURED","TIME_OCCURED","CRIME_CODES","STATUS_CODE","VICTIM_ID","WEAPON_CODE","AREA_CODE","MO_CODES" from (
+SELECT "DR_NUMBER", "DATE_REPORTED","DATE_OCCURED", "TIME_OCCURED",
+trim(regexp_substr("CRIME_CODES", '[^[:space:]]+', 1, levels.column_value)) as "CRIME_CODES",
+"STATUS_CODE","VICTIM_ID","WEAPON_CODE","AREA_CODE",
+trim(regexp_substr("MO_CODES", '[^[:space:]]+', 1, levels1.column_value)) as "MO_CODES"
+FROM CRIME,
+table(cast(multiset(select level from dual connect by level <= length(regexp_replace("CRIME_CODES", '[^[:space:]]+')) + 1)
+ as sys.OdciNumberList)) levels,
+ table(cast(multiset(select level from dual connect by level <= length(regexp_replace("MO_CODES", '[^[:space:]]+')) + 1)
+ as sys.OdciNumberList)) levels1);

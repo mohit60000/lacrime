@@ -14,5 +14,9 @@
         <mat-datepicker-toggle matSuffix [for]="pickerEndDate"></mat-datepicker-toggle>
         <mat-datepicker #pickerEndDate></mat-datepicker>
       </mat-form-field>
+      <br>
+      <div class="mat-elevation-z8" *ngIf="chart">
+          <canvas id="canvas">{{ chart }}</canvas>
+      </div>
   </mat-card-content>
 </mat-card>

@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class SrvTop100Service {
-  private serviceUrl="http://1df300eb.ngrok.io/test";
+  private serviceUrl="http://66bdc064.ngrok.io/test";
 
   constructor(private http: HttpClient) { }
 

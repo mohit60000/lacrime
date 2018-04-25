@@ -21,6 +21,7 @@ export class CmpDayOfWeekGraph implements OnInit {
   endDateVal = new Date(2010, 0, 1);
   events = {};
   private chart = [];
+  private pieChart = [];
 
   constructor(private top100Service: SrvTop100Service, public dialog: MatDialog) { 
   }
@@ -53,7 +54,6 @@ export class CmpDayOfWeekGraph implements OnInit {
     if (type=='endDate')
     {
       this.endDateVal=event.value;
-      this.plotGraph();
     }
   }
 
@@ -66,6 +66,12 @@ dynamicColors() {
 
   plotGraph()
   {
+    if (this.chart instanceof Chart){
+      this.chart.destroy();             //To stop flickering of Charts on selecting new data
+    }
+    if (this.pieChart instanceof Chart){
+      this.pieChart.destroy();          //To stop flickering of Charts on selecting new data
+    }
     let startDate = this.startDateVal.getDate()+"/"+(this.startDateVal.getMonth()+1)+"/"+this.startDateVal.getFullYear();
     let endDate = this.endDateVal.getDate()+"/"+(this.endDateVal.getMonth()+1)+"/"+this.endDateVal.getFullYear();
     console.log(startDate);
@@ -80,6 +86,8 @@ dynamicColors() {
         console.log(data);
         let days=[], crimes=[], finalLabel=[];
         let allDataMap={};
+        let crimeToCountMap={};
+        let crimeToColorMap={};
         for(var ind in data){
           if (days.indexOf(data[ind].DAY.trim())==-1){
             days.push(data[ind].DAY.trim());
@@ -122,6 +130,12 @@ dynamicColors() {
               {
                 flag=true;
                 crimeCount.push(allDataMap[ind][i][1]);
+                if (element in crimeToCountMap){
+                  crimeToCountMap[element]+=allDataMap[ind][i][1];
+                }
+                else{
+                  crimeToCountMap[element]=allDataMap[ind][i][1];
+                }
                 break;
               }
             }
@@ -131,8 +145,10 @@ dynamicColors() {
             }
           }
           let tempMap={};
+          let tempColor = this.dynamicColors();
+          crimeToColorMap[element]=tempColor;
           tempMap['label']=element;
-          tempMap['backgroundColor']=this.dynamicColors();
+          tempMap['backgroundColor']=tempColor;
           tempMap['data']=crimeCount;
           finalDataset.push(tempMap);
         });
@@ -146,7 +162,7 @@ dynamicColors() {
           options: {
             responsive: true,
             legend: {
-              position: 'right',
+              display: false
             },
             scales: {
               xAxes: [{
@@ -158,6 +174,45 @@ dynamicColors() {
             }
           }
         });
+        
+
+        let pieChartLabels = [];
+        let pieChartData = [];
+        let bgColor = [];
+        for (var key in crimeToCountMap){
+          pieChartLabels.push(key);
+          pieChartData.push(crimeToCountMap[key]);
+          bgColor.push(crimeToColorMap[key]);
+        }
+
+        this.pieChart = new Chart('pieGraph', {
+          type: 'pie',
+          data: {
+            labels: pieChartLabels,
+            datasets: [
+              { 
+                data: pieChartData,
+                backgroundColor: bgColor
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            legend: {
+              display: false
+            },
+            title: {
+              display: true,
+              text: 'CRIME SUMMARY IN SELECTED TIME'
+            },
+            animateRotate: true
+          }
+        });
+        document.getElementsByClassName('legend')[0].innerHTML="";
+        for (var ind in pieChartLabels){
+          document.getElementsByClassName('legend')[0].innerHTML+=`<li style="float: left; margin-right: 10px;"><span style="background-color:`+bgColor[ind]+`; width: 10px; height: 10px; display: inline-block; margin-right: 10px;border-radius: 10px;"></span>`+pieChartLabels[ind]+`</li>`;
+        }
+        document.getElementById('container').style.display="block";
       },
       (error)=>{
         console.log(error.error.message);

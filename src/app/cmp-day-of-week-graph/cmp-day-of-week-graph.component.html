@@ -14,9 +14,20 @@
         <mat-datepicker-toggle matSuffix [for]="pickerEndDate"></mat-datepicker-toggle>
         <mat-datepicker #pickerEndDate></mat-datepicker>
       </mat-form-field>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <button class="mat-raised-button mat-primary" (click)="plotGraph()">GET DATA</button>
       <br>
-      <div class="mat-elevation-z8" *ngIf="chart">
-          <canvas id="canvas">{{ chart }}</canvas>
+      <div id="container">
+        <div class="mat-elevation-z8 dataGraph">
+            <canvas id="canvas">{{ chart }}</canvas>
+        </div>
+        <div class="mat-elevation-z8 dataGraph">
+          <canvas id="pieGraph">{{ pieChart }}</canvas>
+        </div>
+        <div class="mat-elevation-z8" style="clear:both; width:100%; display:inline-block;">
+          <ul class="legend">
+          </ul>
+        </div>
       </div>
   </mat-card-content>
 </mat-card>

@@ -7,10 +7,9 @@ import { element } from 'protractor';
 import { Top100 } from '../models/top100.model';
 import { Chart } from 'chart.js';
 import { forEach } from '@angular/router/src/utils/collection';
-import { MouseEvent } from '@agm/core';
+import { MouseEvent, MarkerManager } from '@agm/core';
 import { } from '@types/googlemaps';
 import { HttpClient } from '@angular/common/http';
-
 
 @Component({
   selector: 'app-google-maps',
@@ -42,7 +41,8 @@ export class GoogleMapsComponent implements OnInit {
   }
 
   findMe() {
-    var crimeCoords = 'select * from (select latitude, longitude from area_details) where rownum<=10';
+    this.ngOnInit();
+    var crimeCoords = 'select * from (select latitude, longitude from area_details) where rownum<=100';
     this.top100Service.getData(crimeCoords).subscribe(
         data=>{
         console.log(data);
@@ -56,27 +56,33 @@ export class GoogleMapsComponent implements OnInit {
 
   showPosition(position) {
     var marker, i;
+    var markerList = [];
     var infowindow = new google.maps.InfoWindow();
     position.forEach(element => {
       // The marker's position property needs an object like { lat: 0, lng: 0 };
       // Number(location.latitude) is there to convert the string to a number, but if it's a number already, there's no need to cast it further.
-      let latLng = {lat: Number(element['LATITUDE']), lng: Number(element['LONGITUDE'])};
+      let latLng = {lat: Number(element['LATITUDE'])+((Math.random()/10)*((Math.random()*2)-1)), lng: Number(element['LONGITUDE']+((Math.random()/10)*((Math.random()*.2)-1)))};
   
       // Set the position and title
       marker = new google.maps.Marker({
         position: latLng,
-        title: String(element['LATITUDE']).concat(', ', String(element['LONGITUDE']))
-    });
+        title: String(element['LATITUDE']).concat(', ', String(element['LONGITUDE'])),
+//        map : this.map
+      });
+      
+      markerList.push(marker);
       // place marker in map
-      marker.setMap(this.map);
 
       google.maps.event.addListener(marker, 'click', (function(marker) {
         return function() {
           infowindow.setContent(marker.title);
           infowindow.open(this.map, marker);
         }
-      })(marker));
+      })(marker));      
     });
+
+    var mc = new MarkerClusterer(this.map, markerList,
+      {imagePath: 'https://raw.githubusercontent.com/googlemaps/v3-utility-library/master/markerclusterer/images/m'});
   }
 
   trackMe() {

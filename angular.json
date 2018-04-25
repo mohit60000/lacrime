@@ -33,7 +33,7 @@
                 "input": "src/styles.css"
               }
             ],
-            "scripts": []
+            "scripts": ["markerclusterer.js"]
           },
           "configurations": {
             "production": {

@@ -84,7 +84,7 @@
                 "input": "styles.css"
               }
             ],
-            "scripts": [],
+            "scripts": ["markerclusterer.js"],
             "assets": [
               {
                 "glob": "favicon.ico",

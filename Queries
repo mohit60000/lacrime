@@ -14,12 +14,21 @@
     
 ## 4) LATITUDE and LONGITUDE Data:
    Query: select * from (select latitude, longitude from area_details) where rownum<=10;
-   
-   5) PERCENTAGE CRIME OF an AREA:
-   Query: select tmp1.Crime_year,tmp1.area_Code, tmp1.area_wise_Count*100/tmp.year_wise_Count
+  
+          
+   5) AREAWISE DATA:
+   Query: select Original.Crime_year,Original.area_Code, 
+          Original.area_wise_Count*100/areaWise.year_wise_Count Percentage,
+          ((Original.area_wise_Count - Status_Incomplete.Status_Incomplete_count) *100/Original.area_wise_Count) Status_COmplete_Percentage
           from 
           (select EXTRACT(year from date_occured) Crime_year , area_code, count(*) area_wise_Count 
-          from crime where area_code = 10 group by EXTRACT(year from date_occured),area_code) tmp1,
+          from crime where area_code = 10 group by EXTRACT(year from date_occured),area_code) Original,
+
           (select EXTRACT(year from date_occured) Crime_year , count(*) year_wise_Count 
-          from crime group by EXTRACT(year from date_occured)) tmp
-          where tmp1.Crime_year = tmp.Crime_year;
+          from crime group by EXTRACT(year from date_occured)) areaWise,
+
+          (select EXTRACT(year from date_occured) Crime_year, area_code, count(*) Status_Incomplete_count
+          from crime where area_code = 10 and status_code ='IC' group by EXTRACT(year from date_occured), area_code) Status_Incomplete
+
+          where Original.Crime_year = areaWise.Crime_year
+          and Original.Crime_year = Status_Incomplete.Crime_year;

@@ -14,3 +14,12 @@
     
 ## 4) LATITUDE and LONGITUDE Data:
    Query: select * from (select latitude, longitude from area_details) where rownum<=10;
+   
+   5) PERCENTAGE CRIME OF an AREA:
+   Query: select tmp1.Crime_year,tmp1.area_Code, tmp1.area_wise_Count*100/tmp.year_wise_Count
+          from 
+          (select EXTRACT(year from date_occured) Crime_year , area_code, count(*) area_wise_Count 
+          from crime where area_code = 10 group by EXTRACT(year from date_occured),area_code) tmp1,
+          (select EXTRACT(year from date_occured) Crime_year , count(*) year_wise_Count 
+          from crime group by EXTRACT(year from date_occured)) tmp
+          where tmp1.Crime_year = tmp.Crime_year;

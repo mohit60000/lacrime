@@ -1,0 +1,9 @@
+<form>
+  <mat-form-field>
+    <mat-select placeholder="Area Name" [(ngModel)]="selectedValue" name="areaName" (selectionChange)="areaSelected()">
+      <mat-option *ngFor="let area of areas" [value]="area.NAME">
+        {{area.NAME}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</form>

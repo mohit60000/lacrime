@@ -9,6 +9,9 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule, Routes, RouterOutlet} from '@angular/router';
 import {MatButtonModule} from '@angular/material/button';
 import {MatDatepickerModule, MatFormFieldModule, MatInputModule} from '@angular/material'
+import {MatSelectModule} from '@angular/material/select';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+
 
 import 'hammerjs';
 
@@ -21,6 +24,10 @@ import { DataOnMapComponent } from './data-on-map/data-on-map.component';
 import { CmpYearDataDialog } from './cmp-year-data-dialog/cmp-year-data-dialog.component';
 import { GoogleMapsComponent } from './google-maps/google-maps.component';
 import { CmpDayOfWeekGraph } from './cmp-day-of-week-graph/cmp-day-of-week-graph.component';
+import { CmpAreaWiseInfo } from './cmp-area-wise-info/cmp-area-wise-info.component';
+import { CmpAreaNameDropdown } from './cmp-area-name-dropdown/cmp-area-name-dropdown.component';
+import { CmpCrimePercPerYear } from './cmp-crime-perc-per-year/cmp-crime-perc-per-year.component';
+import { CmpOptionsToViewDropdown } from './cmp-options-to-view-dropdown/cmp-options-to-view.component';
 
 const appRoutes: Routes = [
   {
@@ -46,6 +53,14 @@ const appRoutes: Routes = [
   {
     path : 'DayOfWeekGraph',
     component: CmpDayOfWeekGraph
+  },
+  {
+    path : 'AreaWiseInfo',
+    component: CmpAreaWiseInfo
+  },
+  {
+    path : 'CrimePercentagePerYear',
+    component: CmpCrimePercPerYear
   }
 ]
 
@@ -58,7 +73,11 @@ const appRoutes: Routes = [
     DataOnMapComponent,
     CmpYearDataDialog,
     GoogleMapsComponent,
-    CmpDayOfWeekGraph
+    CmpDayOfWeekGraph,
+    CmpAreaWiseInfo,
+    CmpAreaNameDropdown,
+    CmpCrimePercPerYear,
+    CmpOptionsToViewDropdown
   ],
   entryComponents: [CmpYearDataDialog],
   imports: [
@@ -83,6 +102,8 @@ const appRoutes: Routes = [
     MatNativeDateModule,
     MatFormFieldModule,
     MatInputModule,
+    MatSelectModule,
+    MatProgressSpinnerModule,
     RouterModule.forRoot(
       appRoutes,
       { enableTracing: true}

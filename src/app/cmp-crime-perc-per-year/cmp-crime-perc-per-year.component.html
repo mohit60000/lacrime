@@ -1,0 +1,23 @@
+<mat-card class="example-card">
+    <mat-card-header>
+        <mat-card-title><h2>Crime Rate across years in different areas of LA City</h2></mat-card-title>
+        <app-cmp-area-name-dropdown (selected)="areaSelected($event)"></app-cmp-area-name-dropdown>
+    </mat-card-header>
+    <mat-card-content>
+        <div align="center">
+        <mat-progress-spinner id="progressSpinner"
+            class="example-margin"
+            [color]="color"
+            [mode]="mode"
+            [value]="value">
+        </mat-progress-spinner>
+        </div>
+        <div id="container">
+            <div class="mat-elevation-z8">
+                <canvas id="dialogChart">{{ chart }}</canvas>
+            </div>
+        </div>
+    </mat-card-content>
+</mat-card>
+
+

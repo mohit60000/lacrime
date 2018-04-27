@@ -26,29 +26,37 @@ export class CmpCrimePercPerYear implements OnInit {
     if (this.chart instanceof Chart) {
       this.chart.destroy();             //To stop flickering of Charts on selecting new data
     }
-    var sqlTop100 = `select (select description from crime_details where crime_code=crime_codes) as crime, ccc as count
-    from (select crime_codes, count(distinct dr_number) ccc from crime_view
-    where area_code=(select distinct area_code from area_details where name = '`+event+`')
-    group by crime_codes
-    order by ccc desc)
-    where rownum<=10`;
+
+    var sqlTop100 = `select OriginalArea.Crime_year,OriginalArea.area_Code, 
+    OriginalArea.area_wise_Count*100/TotalAreaWise.year_wise_Count Percentage,
+    ((OriginalArea.area_wise_Count - Status_Incomplete.Status_Incomplete_count) *100/OriginalArea.area_wise_Count) Status_COmplete_Percentage,
+    (Female_Victims.Female_Victim_count * 100 / OriginalArea.area_wise_Count) Female_Victim_Percentage
+    from 
+    (select EXTRACT(year from date_occured) Crime_year , area_code, count(*) area_wise_Count 
+    from crime where area_code = (select distinct(area_code) from area_details where name = '`+event+`') group by EXTRACT(year from date_occured),area_code) OriginalArea,
+
+    (select EXTRACT(year from date_occured) Crime_year , count(*) year_wise_Count 
+    from crime group by EXTRACT(year from date_occured)) TotalAreaWise,
+
+    (select EXTRACT(year from date_occured) Crime_year, area_code, count(*) Status_Incomplete_count
+    from crime where area_code = (select distinct(area_code) from area_details where name = '`+event+`') and status_code ='IC' group by EXTRACT(year from date_occured), area_code) Status_Incomplete,
+    
+    (select EXTRACT(year from date_occured) Crime_year, area_code, count(*) Female_Victim_count
+     from crime where area_code = (select distinct(area_code) from area_details where name = '`+event+`') and victim_id in(select victim_id from victim_details where sex ='F')
+     group by EXTRACT(year from date_occured), area_code) Female_Victims
+      
+    where OriginalArea.Crime_year = TotalAreaWise.Crime_year
+    and OriginalArea.Crime_year = Status_Incomplete.Crime_year
+    and OriginalArea.Crime_year = Female_Victims.Crime_year
+    order by OriginalArea.Crime_year`;
+
     this.top100Service.getData(sqlTop100).subscribe(
     data=>{
       console.log(data);
-      data=[
-        {YEAR: 2010, PERC: 71, SOLVED: 78, FEMALES: 25},
-        {YEAR: 2011, PERC: 67, SOLVED: 75, FEMALES: 35},
-        {YEAR: 2012, PERC: 65, SOLVED: 80, FEMALES: 52},
-        {YEAR: 2013, PERC: 53, SOLVED: 87, FEMALES: 47},
-        {YEAR: 2014, PERC: 42, SOLVED: 90, FEMALES: 38},
-        {YEAR: 2015, PERC: 34, SOLVED: 93, FEMALES: 40},
-        {YEAR: 2016, PERC: 22, SOLVED: 95, FEMALES: 45},
-        {YEAR: 2017, PERC: 20, SOLVED: 94, FEMALES: 39}
-      ];
-      let labels = data.map(res => res['YEAR']);
-      let perc = data.map(res => res['PERC']);
-      let solved = data.map(res => res['SOLVED']);
-      let females = data.map(res => res['FEMALES']);
+      let labels = data.map(res => res['CRIME_YEAR']);
+      let perc = data.map(res => res['PERCENTAGE']);
+      let solved = data.map(res => res['STATUS_COMPLETE_PERCENTAGE']);
+      let females = data.map(res => res['FEMALE_VICTIM_PERCENTAGE']);
       var color = Chart.helpers.color;
       this.chart = new Chart('dialogChart', {
         type: 'line',

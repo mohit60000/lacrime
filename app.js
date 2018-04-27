@@ -14,7 +14,7 @@ app.use(bodyParser.urlencoded({ extended: true })); //URL encoded parameters
 app.post('/test', function (req, res) {
 	"use strict;"
 	var oracledb = require('oracledb');
-	console.log(req);
+//	console.log(req);
 	var sqlQuery = req.body.sql;
 	console.log(sqlQuery);
 	// Get a non-pooled connection

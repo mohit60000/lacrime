@@ -20,7 +20,6 @@ import { CmpTop100Table } from './cmp-top100-table/cmp-top100-table.component';
 import { SrvTop100Service } from './srv-top100.service';
 import { NavmenuComponent } from './navmenu/navmenu.component';
 import { CmpYearWiseCrime } from './cmp-year-wise-crime/cmp-year-wise-crime.component';
-import { DataOnMapComponent } from './data-on-map/data-on-map.component';
 import { CmpYearDataDialog } from './cmp-year-data-dialog/cmp-year-data-dialog.component';
 import { GoogleMapsComponent } from './google-maps/google-maps.component';
 import { CmpDayOfWeekGraph } from './cmp-day-of-week-graph/cmp-day-of-week-graph.component';
@@ -29,6 +28,8 @@ import { CmpAreaNameDropdown } from './cmp-area-name-dropdown/cmp-area-name-drop
 import { CmpCrimePercPerYear } from './cmp-crime-perc-per-year/cmp-crime-perc-per-year.component';
 import { CmpOptionsToViewDropdown } from './cmp-options-to-view-dropdown/cmp-options-to-view.component';
 import { CmpCalculateProbabilityComponent } from './cmp-calculate-probability/cmp-calculate-probability.component';
+import { FiveYearExtrapolationComponent } from './five-year-extrapolation/five-year-extrapolation.component';
+import { TableRowsComponent } from './table-rows/table-rows.component';
 
 const appRoutes: Routes = [
   {
@@ -42,10 +43,6 @@ const appRoutes: Routes = [
   {
     path: 'YearCrime',
     component: CmpYearWiseCrime
-  },
-  {
-    path : 'DataOnMap',
-    component: DataOnMapComponent
   },
   {
     path : 'GoogleMap',
@@ -64,8 +61,16 @@ const appRoutes: Routes = [
     component: CmpCrimePercPerYear
   },
   {
+    path : 'FiveYearExtrapolation',
+    component: FiveYearExtrapolationComponent
+  },
+  {
     path : 'CalculateProbability',
     component: CmpCalculateProbabilityComponent
+  },
+  {
+    path: 'TableRows',
+    component: TableRowsComponent
   }
 ]
 
@@ -75,7 +80,6 @@ const appRoutes: Routes = [
     CmpTop100Table,
     NavmenuComponent,
     CmpYearWiseCrime,
-    DataOnMapComponent,
     CmpYearDataDialog,
     GoogleMapsComponent,
     CmpDayOfWeekGraph,
@@ -83,6 +87,8 @@ const appRoutes: Routes = [
     CmpAreaNameDropdown,
     CmpCrimePercPerYear,
     CmpOptionsToViewDropdown,
+    FiveYearExtrapolationComponent,
+    TableRowsComponent
     CmpCalculateProbabilityComponent
   ],
   entryComponents: [CmpYearDataDialog],

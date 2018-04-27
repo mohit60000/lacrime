@@ -28,11 +28,11 @@ export class GoogleMapsComponent implements OnInit {
   ofcweapons = [];
   ofcareas = [];
 
-  typeofc: string;
-  timeofc: string;
-  yearofc: string;
-  weaponofc: string;
-  areaofc: string;
+  typeofc: string = "";
+  timeofc: string = "";
+  yearofc: number = 2017;
+  weaponofc: string = "";
+  areaofc: string = "";
 
   @ViewChild('gmap') gmapElement: any;
   map: google.maps.Map;
@@ -118,24 +118,39 @@ export class GoogleMapsComponent implements OnInit {
         fillOpacity: 0.35,
         map: this.map,
         center: marker.getPosition(),
-        radius: 12070
+        radius: 24000
       });
-      this.getDataForCircle(cityCircle, marker);
+      this.getDataForCircle(cityCircle, marker, marker.getPosition());
     }).bind(this));
   }
      
-  getDataForCircle(c,m){
+  getDataForCircle(c, m){
     this.ngOnInit();
     m.setMap(this.map);
     c.setMap(this.map);
-
+    var clat = c.center.toString().split(',')[0].split('(')[1];
+    var clon = c.center.toString().split(',')[1].split(')')[0];
+    
+    alert(clat);
+    alert(clon);
     var x;
     var marker;
-    var gc = `SELECT * FROM (SELECT * FROM (SELECT z.latitude, z.longitude, p.radius, p.distance_unit * rad2deg * (ACOS(COS(deg2rad * (p.latpoint)) * COS(deg2rad * (z.latitude))* COS(deg2rad * (p.longpoint - z.longitude)) + SIN(deg2rad * (p.latpoint)) * SIN(deg2rad * (z.latitude)))) AS distance FROM geocodeTest z JOIN (SELECT  34.0522 AS latpoint, -118.2437 AS longpoint, 15.0 AS radius, 111.045 AS distance_unit, 57.2957795 AS rad2deg, 0.0174532925 AS deg2rad FROM  DUAL) p ON 1=1 WHERE z.latitude BETWEEN p.latpoint  - (p.radius / p.distance_unit) AND p.latpoint  + (p.radius /p.distance_unit) AND z.longitude BETWEEN p.longpoint - (p.radius / (p.distance_unit * COS(deg2rad * (p.latpoint)))) AND p.longpoint + (p.radius / (p.distance_unit * COS(deg2rad * (p.latpoint))))) WHERE distance <= radius ORDER BY distance) WHERE ROWNUM <= 20`;
+    var geocoder = new google.maps.Geocoder;
+    var infowindow = new google.maps.InfoWindow();
+
+    var gc = `SELECT * FROM (SELECT * FROM (SELECT z.latitude, z.longitude, p.radius, p.distance_unit * rad2deg * (ACOS(COS(deg2rad * (p.latpoint)) * 
+    COS(deg2rad * (z.latitude))* COS(deg2rad * (p.longpoint - z.longitude)) + SIN(deg2rad * (p.latpoint)) * SIN(deg2rad * (z.latitude)))) 
+    AS distance FROM loc_det z JOIN (SELECT `+clat+` AS latpoint, `+clon+` AS longpoint, 15.0 AS radius, 111.045 AS distance_unit, 57.2957795 AS rad2deg, 
+    0.0174532925 AS deg2rad FROM  DUAL) p ON 1=1 WHERE z.latitude BETWEEN p.latpoint  - (p.radius / p.distance_unit) 
+    AND p.latpoint  + (p.radius /p.distance_unit) AND z.longitude BETWEEN p.longpoint - (p.radius / (p.distance_unit * COS(deg2rad * (p.latpoint)))) 
+    AND p.longpoint + (p.radius / (p.distance_unit * COS(deg2rad * (p.latpoint))))) WHERE distance <= radius ORDER BY distance) WHERE ROWNUM <= 20`;
     this.top100Service.getData(gc).subscribe(
       data=>{
       console.log(data);
+      
       x = data;
+      var mList = [];
+
       x.forEach(element => {
         let latLng = {lat: Number(element['LATITUDE'])+((Math.random()/10)*((Math.random()*2)-1)), lng: Number(element['LONGITUDE']+((Math.random()/10)*((Math.random()*.2)-1)))};
         marker = new google.maps.Marker({
@@ -143,6 +158,22 @@ export class GoogleMapsComponent implements OnInit {
             title: String(element['LATITUDE']).concat(', ', String(element['LONGITUDE'])),
             map : this.map
           });
+
+          google.maps.event.addListener(marker, 'click', (function(marker) {
+            return function() {
+              var a;
+              geocoder.geocode({'location': latLng}, function(results, status) {
+                if (status.toString() === 'OK') {
+                  if (results[0]) {
+                    a = results[0].formatted_address.toString();
+                    console.log(a);
+                    infowindow.setContent(a);
+                    infowindow.open(this.map, marker);
+                  }
+                }
+              });
+            }
+          })(marker));
       },
         (error)=>{
           console.log(error.error.message);
@@ -170,10 +201,18 @@ export class GoogleMapsComponent implements OnInit {
 
   findMe() {
     this.ngOnInit();
+    var sql = `select latitude, longitude from LOCATION_DETAILS ld join area_details ad on ld.LOCATION_ID = ad.LOCATION_ID 
+    where ad.area_code in 
+    (select ads.area_code from area_details ads join crime_view cr on ads.LOCATION_ID = cr.LOCATION_ID 
+    where cr.crime_codes in 
+    (select crime_code from crime_details where crime_details.description like '%`+this.typeofc+`') 
+    and weapon_code in 
+    (select weapon_details.weapon_code from weapon_details where weapon_details.description like '%`+this.weaponofc+`') and 
+    EXTRACT(year from cr.date_occured) = `+this.yearofc+` and cr.TIME_GROUP like '%`+this.timeofc+`') and ad.name like '%`+this.areaofc+`'`;
+    console.log(sql);
 
-    var crimeCoords = 'select * from (select latitude, longitude from area_details) where rownum<=100';
-    this.top100Service.getData(crimeCoords).subscribe(
-        data=>{
+    this.top100Service.getData(sql).subscribe(
+      data=>{
         console.log(data);
         this.showPosition(data);
       },
@@ -181,6 +220,17 @@ export class GoogleMapsComponent implements OnInit {
         console.log(error.error.message);
       }
     );
+
+    // var crimeCoords = 'select * from (select LATITUDE, LONGITUDE from LOCATION_DETAILS) where rownum<=10000';
+    // this.top100Service.getData(crimeCoords).subscribe(
+    //     data=>{
+    //     console.log(data);
+    //     this.showPosition(data);
+    //   },
+    //   (error)=>{
+    //     console.log(error.error.message);
+    //   }
+    // );
   }
 
   showPosition(position) {

@@ -66,6 +66,7 @@ export class CmpDayOfWeekGraph implements OnInit {
     if (this.pieChart instanceof Chart) {
       this.pieChart.destroy();          //To stop flickering of Charts on selecting new data
     }
+    
     let startDate = this.startDateVal.getDate() + "/" + (this.startDateVal.getMonth() + 1) + "/" + this.startDateVal.getFullYear();
     let endDate = this.endDateVal.getDate() + "/" + (this.endDateVal.getMonth() + 1) + "/" + this.endDateVal.getFullYear();
     console.log(startDate);

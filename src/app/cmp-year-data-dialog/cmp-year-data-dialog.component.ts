@@ -13,10 +13,12 @@ export class CmpYearDataDialog implements OnInit {
   private chart = [];
 
   constructor(private top100Service: SrvTop100Service, public dialogRef: MatDialogRef<CmpYearDataDialog>, @Inject(MAT_DIALOG_DATA) public yearSelected: string) { 
-    var sqlTop100 = "select (select description from crime_details where crime_code=c.crime_codes) cd from crime c where EXTRACT(year from date_reported)="+yearSelected;
-    var arrFinalCrimeCodes = [];
-    var sortedCrimeCodes = [];
-    var hashMap={};
+    var sqlTop100 = `select (select description from crime_details where crime_code = crime_codes) CRIME, ccc COUNT \
+    from (select crime_codes, count(distinct dr_number)ccc from crime_view \
+    where EXTRACT(year from date_occured)= `+yearSelected+`\
+    group by crime_codes, EXTRACT(year from date_occured) \
+    order by ccc desc) \
+    where rownum <=10`;
     top100Service.getData(sqlTop100).subscribe(
       data=>{
         console.log(data);

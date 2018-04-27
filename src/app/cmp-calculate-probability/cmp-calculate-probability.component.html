@@ -1,0 +1,39 @@
+<mat-card class="example-card">
+    <mat-card-header>
+      <mat-card-title><h2>Calculate the probability of a Crime on you</h2></mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <div class="mat-elevation-z8">
+          <app-cmp-area-name-dropdown (selected)="areaSelected($event);"></app-cmp-area-name-dropdown>
+          <div id="probability" style="float:right; margin-right:100px;"></div>
+          <form style="margin-left:25px;">
+            <mat-form-field>
+              <mat-select placeholder="Descent" [(ngModel)]="selectedValueDescent" name="descentName">
+                <mat-option *ngFor="let descent of descents" [value]="descent.NAME">
+                  {{descent.VALUE}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </form>
+          <form style="margin-left:25px;">
+            <mat-form-field>
+              <mat-select placeholder="Age Group" [(ngModel)]="selectedValueAge" name="ageName">
+                <mat-option *ngFor="let age of ages" [value]="age.NAME">
+                  {{age.NAME}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </form>
+          <button class="mat-raised-button mat-primary" (click)="plotGraph()" style="float: right; margin-right: 100px;">GET DATA</button>
+          <form style="margin-left:25px;">
+            <mat-form-field>
+              <mat-select placeholder="Gender" [(ngModel)]="selectedValueGender" name="genderName">
+                <mat-option *ngFor="let gender of genders" [value]="gender.NAME">
+                  {{gender.VALUE}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </form>
+        </div>
+      </mat-card-content>
+    </mat-card>

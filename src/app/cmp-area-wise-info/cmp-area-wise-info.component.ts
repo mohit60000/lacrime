@@ -19,6 +19,7 @@ export class CmpAreaWiseInfo implements OnInit {
   colorcc = 'warn';
   colormo = 'warn';
   colorwc = 'warn';
+  colorpc = 'warn';
   mode = 'indeterminate';
   area="";
   option="";
@@ -79,6 +80,20 @@ export class CmpAreaWiseInfo implements OnInit {
       pg = 'progressSpinnerWC';
       container = 'containerWC';
       gColor = '#00BCD4';
+    }
+    else if(opt=="PC"){
+      sqlTop100=`select (select description from premise_details where premise_code=pc) name, count
+      from (select premise_code pc, count(area_code) count
+      from area_details
+      where area_code=(select distinct area_code from area_details where name = 'Central')
+      group by premise_code)
+      where rownum<=10
+      order by count desc`;
+      label = 'Count of Top 10 Premises of Crime in '+this.area;
+      canvasID = 'dialogChartPC';
+      pg = 'progressSpinnerPC';
+      container = 'containerPC';
+      gColor = '#800080';
     }
       document.getElementById(container).style.display="none";
       document.getElementById(pg).style.display="block";

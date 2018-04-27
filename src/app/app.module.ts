@@ -28,6 +28,7 @@ import { CmpAreaWiseInfo } from './cmp-area-wise-info/cmp-area-wise-info.compone
 import { CmpAreaNameDropdown } from './cmp-area-name-dropdown/cmp-area-name-dropdown.component';
 import { CmpCrimePercPerYear } from './cmp-crime-perc-per-year/cmp-crime-perc-per-year.component';
 import { CmpOptionsToViewDropdown } from './cmp-options-to-view-dropdown/cmp-options-to-view.component';
+import { CmpCalculateProbabilityComponent } from './cmp-calculate-probability/cmp-calculate-probability.component';
 
 const appRoutes: Routes = [
   {
@@ -61,6 +62,10 @@ const appRoutes: Routes = [
   {
     path : 'CrimePercentagePerYear',
     component: CmpCrimePercPerYear
+  },
+  {
+    path : 'CalculateProbability',
+    component: CmpCalculateProbabilityComponent
   }
 ]
 
@@ -77,7 +82,8 @@ const appRoutes: Routes = [
     CmpAreaWiseInfo,
     CmpAreaNameDropdown,
     CmpCrimePercPerYear,
-    CmpOptionsToViewDropdown
+    CmpOptionsToViewDropdown,
+    CmpCalculateProbabilityComponent
   ],
   entryComponents: [CmpYearDataDialog],
   imports: [

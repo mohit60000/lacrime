@@ -20,8 +20,8 @@ app.post('/test', function (req, res) {
 	// Get a non-pooled connection
 	oracledb.getConnection(
 	  {
-	    user          : "psaxena",
-	    password      : "mrpp#AVNN20",
+	    user          : "vaishali",
+	    password      : "Manasa*8",
 	    connectString : "oracle.cise.ufl.edu/orcl"
 	  },
 	  function(err, connection) {

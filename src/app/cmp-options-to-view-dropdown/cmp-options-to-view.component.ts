@@ -9,8 +9,9 @@ import { SrvTop100Service } from '../srv-top100.service';
 export class CmpOptionsToViewDropdown implements OnInit {
 
   options=[
-    {NAME:'Top 10 Crime Codes', VALUE:'CC'},
-    {NAME:'Top 10 MOs', VALUE:'MO'}
+    {NAME:'Top 10 Crimes', VALUE:'CC'},
+    {NAME:'Top 10 MOs', VALUE:'MO'},
+    {NAME:'Top 10 Weapons', VALUE:'WC'}
   ];
   selectedValue: string;
 

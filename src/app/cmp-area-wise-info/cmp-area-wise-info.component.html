@@ -1,22 +1,49 @@
 <mat-card class="example-card">
         <mat-card-header>
             <mat-card-title><h2>Information about different areas of LA City</h2></mat-card-title>
-            <app-cmp-area-name-dropdown (selected)="areaSelected($event)"></app-cmp-area-name-dropdown>
-            <app-cmp-options-to-view (selected)="optionSelected($event)"></app-cmp-options-to-view>
-            <button class="mat-raised-button mat-primary" (click)="plotGraph()">GET DATA</button>
+            <app-cmp-area-name-dropdown (selected)="areaSelected($event); plotGraph('CC'); plotGraph('MO'); plotGraph('WC')"></app-cmp-area-name-dropdown>
         </mat-card-header>
         <mat-card-content>
             <div align="center">
-            <mat-progress-spinner id="progressSpinner"
-                class="example-margin"
-                [color]="color"
+            <mat-progress-spinner id="progressSpinnerCC"
+                class="example-margin progressSpinner"
+                [color]="colorcc"
                 [mode]="mode"
-                [value]="value">
+                [value]="value"
+                style="margin-left: 25%; margin-top: 25px; float:left">
             </mat-progress-spinner>
             </div>
-            <div id="container">
-                <div class="mat-elevation-z8">
-                    <canvas id="dialogChart">{{ chart }}</canvas>
+            <div class="container" id="containerCC">
+                <div class="mat-elevation-z8" style="width:50%; float:left;">
+                    <canvas id="dialogChartCC">{{ chartCC }}</canvas>
+                </div>
+            </div>
+            <div align="center">
+            <mat-progress-spinner id="progressSpinnerMO"
+                class="example-margin progressSpinner"
+                [color]="colormo"
+                [mode]="mode"
+                [value]="value"
+                style="margin-left:75%; margin-top: 25px;">
+            </mat-progress-spinner>
+            </div>
+            <div class="container" id="containerMO">
+                <div class="mat-elevation-z8" style="width:50%; float:left;">
+                    <canvas id="dialogChartMO">{{ chartMO }}</canvas>
+                </div>
+            </div>
+            <div align="center">
+            <mat-progress-spinner id="progressSpinnerWC"
+                class="example-margin progressSpinner"
+                [color]="colorwc"
+                [mode]="mode"
+                [value]="value"
+                style="float:left;margin-left:25%; margin-top: 250px;">
+            </mat-progress-spinner>
+            </div>
+            <div  class="container" id="containerWC">
+                <div class="mat-elevation-z8" style="width:50%">
+                    <canvas id="dialogChartWC">{{ chartWC }}</canvas>
                 </div>
             </div>
         </mat-card-content>

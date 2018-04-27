@@ -22,15 +22,20 @@ button{
       height: stretch;
   }
 
-  #container{
+  .container{
     display: none;
   }
 
-  #progressSpinner{
+  .progressSpinner{
       display: none;
       margin-top: 50px;
   }
 
   .example-margin {
     margin: 0 10px;
+  }
+
+  .dataGraph {
+    width: 50%;
+    float: left;
   }

@@ -36,18 +36,19 @@ export class CmpCrimePercPerYear implements OnInit {
     data=>{
       console.log(data);
       data=[
-        {YEAR: 2010, PERC: 71, SOLVED: 78},
-        {YEAR: 2011, PERC: 67, SOLVED: 75},
-        {YEAR: 2012, PERC: 65, SOLVED: 80},
-        {YEAR: 2013, PERC: 53, SOLVED: 87},
-        {YEAR: 2014, PERC: 42, SOLVED: 90},
-        {YEAR: 2015, PERC: 34, SOLVED: 93},
-        {YEAR: 2016, PERC: 22, SOLVED: 95},
-        {YEAR: 2017, PERC: 20, SOLVED: 94}
+        {YEAR: 2010, PERC: 71, SOLVED: 78, FEMALES: 25},
+        {YEAR: 2011, PERC: 67, SOLVED: 75, FEMALES: 35},
+        {YEAR: 2012, PERC: 65, SOLVED: 80, FEMALES: 52},
+        {YEAR: 2013, PERC: 53, SOLVED: 87, FEMALES: 47},
+        {YEAR: 2014, PERC: 42, SOLVED: 90, FEMALES: 38},
+        {YEAR: 2015, PERC: 34, SOLVED: 93, FEMALES: 40},
+        {YEAR: 2016, PERC: 22, SOLVED: 95, FEMALES: 45},
+        {YEAR: 2017, PERC: 20, SOLVED: 94, FEMALES: 39}
       ];
       let labels = data.map(res => res['YEAR']);
       let perc = data.map(res => res['PERC']);
       let solved = data.map(res => res['SOLVED']);
+      let females = data.map(res => res['FEMALES']);
       var color = Chart.helpers.color;
       this.chart = new Chart('dialogChart', {
         type: 'line',
@@ -68,6 +69,14 @@ export class CmpCrimePercPerYear implements OnInit {
               backgroundColor: color("#00FF00").alpha(0.5).rgbString(),
               borderColor: color("#00FF00").alpha(1).rgbString(),
               borderWidth: 3,
+              fill: false
+            },
+            { 
+              data: females,
+              label: 'Percentage of female victims across years in '+event,
+              backgroundColor: color("#4B0082").alpha(0.5).rgbString(),
+              borderColor: color("#4B0082").alpha(1).rgbString(),
+              borderDash: [5, 5],
               fill: false
             }]
         },

@@ -9,11 +9,16 @@ import { Chart } from 'chart.js';
 })
 export class CmpAreaWiseInfo implements OnInit {
 
+  private chartCC; 
+  private chartMO;
+  private chartWC;
   private chart;
   private areaNameSelected;
   status='loading';
   value = 50;
-  color = 'accent';
+  colorcc = 'warn';
+  colormo = 'warn';
+  colorwc = 'warn';
   mode = 'indeterminate';
   area="";
   option="";
@@ -28,14 +33,14 @@ export class CmpAreaWiseInfo implements OnInit {
     this.area=event;
   }
 
-  optionSelected(event){
-    this.option=event;
-  }
-
-  plotGraph(){
+  plotGraph(opt){
     let sqlTop100="";
     let label="";
-    if (this.option=="CC"){
+    let canvasID="";
+    let pg="";
+    let container="";
+    let gColor="";
+    if (opt=="CC"){
       sqlTop100 = `select (select description from crime_details where crime_code=crime_codes) as name, ccc as count
       from (select crime_codes, count(distinct dr_number) ccc from crime_view
       where area_code=(select distinct area_code from area_details where name = '`+this.area+`')
@@ -43,8 +48,12 @@ export class CmpAreaWiseInfo implements OnInit {
       order by ccc desc)
       where rownum<=10`;
       label = 'Count of Top 10 Crime Codes in '+this.area;
+      canvasID = 'dialogChartCC';
+      pg = 'progressSpinnerCC';
+      container = 'containerCC';
+      gColor = '#FF3F80';
     }
-    else if(this.option=="MO"){
+    else if(opt=="MO"){
       sqlTop100=`select (select description from mo_details where mo_codes=mc) as name, ccc as count
       from (select mo_codes mc, count(distinct dr_number) ccc from crime_view
       where area_code=(select distinct area_code from area_details where name = '`+this.area+`')
@@ -52,21 +61,53 @@ export class CmpAreaWiseInfo implements OnInit {
       order by ccc desc)
       where rownum<=10`;
       label = 'Count of Top 10 MOs in '+this.area;
+      canvasID = 'dialogChartMO';
+      pg = 'progressSpinnerMO';
+      container = 'containerMO';
+      gColor = '#009688';
     }
-      document.getElementById('container').style.display="none";
-      document.getElementById('progressSpinner').style.display="block";
+    else if(opt=="WC"){
+      sqlTop100=` select (select description from weapon_Details where weapon_code=wc) as name, ccc as count
+      from (select WEAPON_CODE wc, count(distinct dr_number) ccc from crime_view
+      where area_code=(select distinct area_code from area_details where name = 'Central')
+      and weapon_code is not null
+      group by WEAPON_CODE
+      order by ccc desc)
+      where rownum<=10`;
+      label = 'Count of Top 10 Weapons in '+this.area;
+      canvasID = 'dialogChartWC';
+      pg = 'progressSpinnerWC';
+      container = 'containerWC';
+      gColor = '#00BCD4';
+    }
+      document.getElementById(container).style.display="none";
+      document.getElementById(pg).style.display="block";
       if (this.chart instanceof Chart) {
         this.chart.destroy();             //To stop flickering of Charts on selecting new data
       }
       this.top100Service.getData(sqlTop100).subscribe(
       data=>{
         console.log(data);
-        let labels = data.map(res => res['NAME']);
+        let labels = data.map(res => {
+          if(res['NAME']!=null){
+            if (res['NAME'].toString().length>40)
+            {
+              return res['NAME'].substr(0,37)+"...";
+            }
+            else
+            {
+              return res['NAME'];
+            }
+          }
+          else{
+            return null;
+          }
+        });
         let values = data.map(res => res['COUNT']);
         console.log(labels);
         console.log(values);
         var color = Chart.helpers.color;
-        this.chart = new Chart('dialogChart', {
+        this.chart = new Chart(canvasID, {
           type: 'horizontalBar',
           data: {
             labels: labels,
@@ -74,8 +115,8 @@ export class CmpAreaWiseInfo implements OnInit {
               { 
                 data: values,
                 label: label,
-                backgroundColor: color("#FF3F80").alpha(0.5).rgbString(),
-                borderColor: color("#FF3F80").alpha(1).rgbString(),
+                backgroundColor: color(gColor).alpha(0.5).rgbString(),
+                borderColor: color(gColor).alpha(1).rgbString(),
                 borderWidth: 3,
               }
             ]
@@ -84,16 +125,35 @@ export class CmpAreaWiseInfo implements OnInit {
             responsive: true,
             legend: {
               position: 'top',
+              itemStyle: {
+                width: 5 // or whatever, auto-wrap
+              },
             }
-          }
+          },
+          scales: {
+            yAxes: [{
+                ticks: {
+                    fontSize: 3
+                }
+            }]
+        }
         });
         this.status='done';
-        document.getElementById('progressSpinner').style.display="none";
-        document.getElementById('container').style.display="block";
+        document.getElementById(pg).style.display="none";
+        document.getElementById(container).style.display="block";
       },
       (error)=>{
         console.log(error.error.message);
       }
     );
+    if(opt=="CC"){
+      this.chartCC=this.chart;
+    }
+    else if(opt=="MO"){
+      this.chartMO=this.chart;
+    }
+    else if(opt=="WC"){
+      this.chartWC=this.chart;
+    }
   }
 }

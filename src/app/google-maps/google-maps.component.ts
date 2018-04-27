@@ -81,8 +81,8 @@ export class GoogleMapsComponent implements OnInit {
       })(marker));      
     });
 
-    var mc = new MarkerClusterer(this.map, markerList,
-      {imagePath: 'https://raw.githubusercontent.com/googlemaps/v3-utility-library/master/markerclusterer/images/m'});
+    //var mc = new MarkerClusterer(this.map, markerList,
+    //  {imagePath: 'https://raw.githubusercontent.com/googlemaps/v3-utility-library/master/markerclusterer/images/m'});
   }
 
   trackMe() {

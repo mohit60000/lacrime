@@ -13,39 +13,15 @@ export class CmpYearDataDialog implements OnInit {
   private chart = [];
 
   constructor(private top100Service: SrvTop100Service, public dialogRef: MatDialogRef<CmpYearDataDialog>, @Inject(MAT_DIALOG_DATA) public yearSelected: string) { 
-    var sqlTop100 = "select crime_codes from crime where EXTRACT(year from date_reported)="+yearSelected;
+    var sqlTop100 = "select (select description from crime_details where crime_code=c.crime_codes) cd from crime c where EXTRACT(year from date_reported)="+yearSelected;
     var arrFinalCrimeCodes = [];
     var sortedCrimeCodes = [];
     var hashMap={};
     top100Service.getData(sqlTop100).subscribe(
       data=>{
         console.log(data);
-        for(var d in data) {
-          let cc=data[d]['CRIME_CODES'].split(" ");
-          for(var f in cc){
-            arrFinalCrimeCodes.push(cc[f]);
-          }
-        }
-        for (var item in arrFinalCrimeCodes){
-          let i=arrFinalCrimeCodes[item];
-          if (i in hashMap){
-            hashMap[i]+=1;
-          }
-          else{
-            hashMap[i]=1;
-          }
-        }
-        for (var vehicle in hashMap) {
-          sortedCrimeCodes.push([vehicle, hashMap[vehicle]]);
-        }
-        sortedCrimeCodes.sort(function(a, b) {
-            return b[1] - a[1];
-        });
-        console.log(sortedCrimeCodes);
-
-        let top10Crimes=sortedCrimeCodes.slice(0,10);
-        let labels=top10Crimes.map(val => val[0]);
-        let values=top10Crimes.map(val => val[1]);
+        let labels=data.map(val => val['CRIME']);
+        let values=data.map(val => val['COUNT']);
         console.log(labels);
         console.log(values);
 

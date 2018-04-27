@@ -26,7 +26,7 @@ export class CmpYearWiseCrime implements OnInit {
 
   constructor(private top100Service: SrvTop100Service, public dialog: MatDialog) {
     var sqlGetYears = "select count(dr_number) as case_count, y as year \
-    from (select dr_number, EXTRACT(year from date_reported) as y from crime) \
+    from (select dr_number, EXTRACT(year from date_occured) as y from crime) \
     group by y \
     order by y desc";
     top100Service.getData(sqlGetYears).subscribe(

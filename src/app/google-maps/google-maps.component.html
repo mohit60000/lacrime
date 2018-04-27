@@ -1,16 +1,58 @@
 <mat-card class="gmapDataChange">
   <mat-card-header>
+
   </mat-card-header>
   <mat-card-content>
-      <div #gmapsnavbar ></div>
-      <button class='mat-raised-button' (click)="findMe()">Get</button>
-      <button mat-raised-button>dsfdsv</button>
+      <mat-form-field style="float: left; margin-left: 25px;">
+        <mat-select [(value)]="s1" placeholder="Type of Crime" [(ngModel)]="typeofc">
+          <mat-option *ngFor="let crms of ofctypes" [value]="crms.DESCRIPTION">
+            {{crms.DESCRIPTION}}  
+          </mat-option>
+        </mat-select> 
+      </mat-form-field>
+
+      <mat-form-field style="float: left; margin-left: 25px;">
+          <mat-select [(value)]="s2" placeholder="Area" [(ngModel)]="areaofc">
+            <mat-option *ngFor="let area of ofcareas" [value]="area.NAME">
+              {{area.NAME}}  
+            </mat-option>
+          </mat-select> 
+      </mat-form-field>
+
+      <mat-form-field style="float: left; margin-left: 25px;">
+          <mat-select [(value)]="s3" placeholder="Year" [(ngModel)]="yearofc">
+              <mat-option value="none">None</mat-option>
+              <mat-option value="2010">2010</mat-option>
+              <mat-option value="2011">2011</mat-option>
+              <mat-option value="2012">2012</mat-option>
+            </mat-select>
+      </mat-form-field>
+
+      <mat-form-field style="float: left; margin-left: 25px;">
+          <mat-select [(value)]="s4" placeholder="Time of Day" [(ngModel)]="timeofc">
+              <mat-option value="none">None</mat-option>
+              <mat-option value="morning">Morning</mat-option>
+              <mat-option value="afternoon">Afternoon</mat-option>
+              <mat-option value="evening">Evening</mat-option>
+              <mat-option value="night">Night</mat-option>
+            </mat-select>
+      </mat-form-field>
+
+      <mat-form-field style="float: left; margin-left: 25px;">
+          <mat-select [(value)]="s5" placeholder="Weapon Used" [(ngModel)]="weaponofc" name="weapons">
+              <mat-option *ngFor="let wpns of ofcweapons" [value]="wpns.DESCRIPTION">
+                  {{wpns.DESCRIPTION}}
+              </mat-option>
+            </mat-select>
+      </mat-form-field>
+      <button class='mat-raised-button' (click)="findMe()" style="float: left; margin-left: 25px;">Get</button> &nbsp; &nbsp;      
+
+      <button mat-raised-button (click)="nearMe()" style="float: left; margin-left: 25px;">Crimes Near Me</button>
+
   </mat-card-content>
   <mat-card-actions>
   </mat-card-actions>
 </mat-card>
-
-
 <mat-card class="g-map-card">
   <mat-card-header>
   </mat-card-header>

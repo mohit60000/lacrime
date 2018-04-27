@@ -88,7 +88,7 @@ const appRoutes: Routes = [
     CmpCrimePercPerYear,
     CmpOptionsToViewDropdown,
     FiveYearExtrapolationComponent,
-    TableRowsComponent
+    TableRowsComponent,
     CmpCalculateProbabilityComponent
   ],
   entryComponents: [CmpYearDataDialog],

@@ -131,8 +131,6 @@ export class GoogleMapsComponent implements OnInit {
     var clat = c.center.toString().split(',')[0].split('(')[1];
     var clon = c.center.toString().split(',')[1].split(')')[0];
     
-    alert(clat);
-    alert(clon);
     var x;
     var marker;
     var geocoder = new google.maps.Geocoder;

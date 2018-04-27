@@ -17,6 +17,7 @@ app.post('/test', function (req, res) {
 //	console.log(req);
 	var sqlQuery = req.body.sql;
 	console.log(sqlQuery);
+	console.log('\n');
 	// Get a non-pooled connection
 	oracledb.getConnection(
 	  {
@@ -54,8 +55,8 @@ app.post('/test', function (req, res) {
 	          return;
 	        }
 	        x = result.rows;
-	        console.log(result.metaData); // [ { name: 'DEPARTMENT_ID' }, { name: 'DEPARTMENT_NAME' } ]
-	        console.log(result.rows);     // [ [ 180, 'Construction' ] ]
+//	        console.log(result.metaData); // [ { name: 'DEPARTMENT_ID' }, { name: 'DEPARTMENT_NAME' } ]
+//	        console.log(result.rows);     // [ [ 180, 'Construction' ] ]
 	        doRelease(connection);
 	        res.send(x);
 	        });
